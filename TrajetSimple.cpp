@@ -25,6 +25,11 @@ Trajet* TrajetSimple::Clone() const
 	return new TrajetSimple(*this);
 }//------- Fin de Clone
 
+int TrajetSimple::GetType() const
+{
+	return 0;
+}
+
 //------------- Surcharge d'opérateurs -----------------------------------------------------
 
 

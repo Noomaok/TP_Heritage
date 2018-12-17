@@ -124,17 +124,7 @@ void Menu::run()
 				cout << endl << "Recherche de parcours :\n -Version Simple [vs]\n -Version Avancee [va]\n -Retour [r]" << endl;
 			}
 		}
-		else if (currentMenu == SelectionMenu::DELETE_TRAJET) //Suppression d'un element
-		{
-			int indiceASupprimer = -1;
-			while (indiceASupprimer < 1)
-			{
-				cout << "Indiquer l'indice du trajet � supprimer du catalogue : ";
-				cin >> indiceASupprimer;
-			}
-			catal.DeleteElement(indiceASupprimer - 1);
-			currentMenu = SelectionMenu::M_MENU;
-		}
+		
 		lecture[0] = '\0';
 
 		if (!modif)

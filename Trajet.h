@@ -26,6 +26,8 @@ public:
 	virtual void Affichage() const = 0;
 	// Methode virtuelle pur destine a gerer l'affichage des trajets
 
+	virtual int GetType() const = 0;
+
 	static bool TestCompatible(Trajet const &  trajet1, const Trajet & trajet2);
 	// Mode d'emploi :
 	// Test la compatibilite de deux trajet. Renvoie true si l'arrive de trajet1 est identique au depart de trajet2

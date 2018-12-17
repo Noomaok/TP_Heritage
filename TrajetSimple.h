@@ -27,6 +27,8 @@ public:
 	// Mode d'emploi :
 	// Affiche la ville de depart, la ville d'arrivee et le moyen de transport dans la sortie par defaut du systeme
 
+	virtual int GetType() const;
+
 	virtual Trajet* Clone() const;
 	// Mode d'emploi :
 	// Renvoie une copie du trajet simple courant

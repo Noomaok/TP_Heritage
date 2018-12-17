@@ -22,6 +22,11 @@ bool TrajetCompose::RemoveLast()
 	return true;
 }// WIP
 
+int TrajetCompose::GetType() const
+{
+	return 1;
+}
+
 void TrajetCompose::Affichage() const
 {
 	cout << "TC" << numTrajet << " : " << endl << "{" << endl;

@@ -28,6 +28,8 @@ public:
 	// Mode d'emploi :
 	// Affiche le contenu du TrajetCompose courant
 
+	virtual int GetType() const;
+
 	bool AjouterTrajet(Trajet *nouveauTrajet);
 	// Mode d'emploi :
 	// Ajouter le trajet à la liste si il est compatible avec ceux déjà présent. Renvoie true si le trajet été corectement ajouté. Sinon renvoie false.

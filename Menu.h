@@ -36,6 +36,10 @@ public:
 	// Mode d'emploi :
 	// Lance la procedure de creation d'un trajet simple. Renvoie un pointeur sur le nouveau trajet.
 
+	void Sauvegarde() const;
+
+	void Chargement();
+
 	//---- Surchage d'op�rateurs ----
 	//--- Constructeurs - Desctructeurs ---
 
@@ -51,7 +55,8 @@ protected:
 	//----- Methodes prot�g�es -----
 	//----- Attributs prot�g�s -----
 
-	enum SelectionMenu { M_MENU, CT_MENU, RP_MENU, TC_MENU, DELETE_TRAJET };
+	enum CritereType { NONE, ON_TYPE, ON_DEPART, ON_ARRIVEE, ON_BOTH, ON_INTER};
+	enum SelectionMenu { M_MENU, CT_MENU, RP_MENU, TC_MENU, DELETE_TRAJET, SAVE, LOAD};
 	SelectionMenu currentMenu;
 	Catalogue catal;
 };
