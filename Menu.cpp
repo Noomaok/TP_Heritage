@@ -62,14 +62,18 @@ void Menu::run()
 			{
 				currentMenu = SelectionMenu::RP_MENU;
 			}
-			else if (strcmp(lecture, "dt") == 0)
+			else if (strcmp(lecture, "save") == 0)
 			{
-				currentMenu = SelectionMenu::DELETE_TRAJET;
+				currentMenu = SelectionMenu::SAVE;
+			}
+			else if (strcmp(lecture, "load") == 0)
+			{
+				currentMenu = SelectionMenu::LOAD;
 			}
 			else
 			{
 				modif = false;
-				cout << endl << "Menu :\n -Creer un trajet [ct]\n -Afficher le contenu du catalogue [af]\n -Rechercher un parcours [rp]\n -Supprimer un trajet (Simple ou compose) [dt]\n -Quitter [bye]" << endl;
+				cout << endl << "Menu :\n -Creer un trajet [ct]\n -Afficher le contenu du catalogue [af]\n -Rechercher un parcours [rp]\n -Sauvegarder [save]\n -Charger [load]\n -Quitter [bye]" << endl;
 			}
 		}
 		else if (currentMenu == SelectionMenu::CT_MENU)
@@ -136,7 +140,38 @@ void Menu::run()
 				cout << endl << "Recherche de parcours :\n -Version Simple [vs]\n -Version Avancee [va]\n -Retour [r]" << endl;
 			}
 		}
-
+		else if (currentMenu == SelectionMenu::SAVE)
+		{
+			if(strcmp(lecture, "none") == 0)
+			{
+				Sauvegarde(CritereType::NONE);
+			}
+			else if (strcmp(lecture, "r") == 0)
+			{
+				currentMenu = SelectionMenu::M_MENU;
+			}
+			else
+			{
+				modif = false;
+				cout << endl << "Sauvegarde :\n -Pas de critere [none]\n -En fonction du type [type]\n -En fonction des villes [dep] [arr] [both]\n -Sur un intervalle [inter]\n -Retour [r]" << endl;
+			}
+		}
+		else if (currentMenu == SelectionMenu::LOAD)
+		{
+			if(strcmp(lecture, "none") == 0)
+			{
+				Chargement(CritereType::NONE);
+			}
+			else if (strcmp(lecture, "r") == 0)
+			{
+				currentMenu = SelectionMenu::M_MENU;
+			}
+			else
+			{
+				modif = false;
+				cout << endl << "Sauvegarde :\n -Pas de critere [none]\n -En fonction du type [type]\n -En fonction des villes [dep] [arr] [both]\n -Sur un intervalle [inter]\n -Retour [r]" << endl;
+			}
+		}
 		lecture[0] = '\0';
 
 		if (!modif)
@@ -145,8 +180,6 @@ void Menu::run()
 			cout << endl;
 		}
 	}
-
-	Sauvegarde(CritereType::NONE);
 }//--------Fin de run
 
 TrajetSimple* Menu::creerTrajetSimple()
@@ -250,7 +283,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	}
 
 	ofstream fichierSave;
-	fichierSave.open(string(saveName));
+	fichierSave.open(saveName);
 
 	if(type == CritereType::NONE)
 	{
@@ -265,6 +298,43 @@ void Menu::Sauvegarde(CritereType type, ...) const
 
 	fichierSave.close();
 }//--------Fin de Sauvegarde
+
+void Menu::Chargement(CritereType type, ...)
+{
+	va_list ap;
+	va_start(ap, type);
+
+	string loadName;
+	cout << "Veuillez saisir le nom du fichier a charger : ";
+	cin >> loadName;
+	loadName = string(DIR) + loadName;
+
+	if(!checkExists(loadName))
+	{
+		cout << "Le fichier n'existe pas" << endl;
+		return;
+	}
+
+	ifstream fichierLoad;
+	fichierLoad.open(loadName);
+
+	if(type == CritereType::NONE)
+	{
+		int type;
+		while(!fichierLoad.eof())
+		{
+			fichierLoad >> type;
+			if(type == 0)
+			{
+				string villeDep, villeArr, moyTransport;
+				fichierLoad >> villeDep >> villeArr >> moyTransport;
+				TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+				catal.Add(nouveauTrajet);
+			}
+		}
+	}
+
+}//--------Fin dde Chargement
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
 

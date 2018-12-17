@@ -43,7 +43,7 @@ public:
 
 	void Sauvegarde(CritereType type, ...) const;
 
-	void Chargement();
+	void Chargement(CritereType type, ...);
 
 	//---- Surchage d'op�rateurs ----
 	//--- Constructeurs - Desctructeurs ---
