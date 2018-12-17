@@ -247,13 +247,9 @@ Menu::~Menu()
 
 //------------- Methodes prot�g�es ---------------------------------------------------------
 
-
-
-
-
-
 int main()
 {
+	system("mkdir -p save");
 	Menu menu;
 	return 0;
 }

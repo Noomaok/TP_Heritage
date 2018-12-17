@@ -1,7 +1,7 @@
 ECHO = @echo
 RM = rm
 RMFLAGS = -f
-EXE = TP2_Heritage
+EXE = GES
 INT = Trajet.h TrajetSimple.h TrajetCompose.h TableauTrajet.h Catalogue.h Menu.h
 REAL = $(INT:.h=.cpp) 
 OBJ = $(REAL:.cpp=.o)
