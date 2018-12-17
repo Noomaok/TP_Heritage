@@ -39,7 +39,7 @@ public:
 	// Mode d'emploi :
 	// Lance la procedure de creation d'un trajet simple. Renvoie un pointeur sur le nouveau trajet.
 
-	static bool checkExists(string file);
+	bool checkExists(string file) const;
 
 	void Sauvegarde(CritereType type, ...) const;
 

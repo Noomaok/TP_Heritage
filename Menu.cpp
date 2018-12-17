@@ -16,13 +16,13 @@ using namespace std;
 
 //------------- Methodes publiques ---------------------------------------------------------
 
-bool checkExists(string file)
+bool Menu::checkExists(string file) const
 {
-		ifstream file_to_check(file.c_str());
-		if(file_to_check.is_open())
-			return true;
-		return false;
-		file_to_check.close();
+	ifstream file_to_check(file.c_str());
+	if(file_to_check.is_open())
+		return true;
+	file_to_check.close();
+	return false;
 }
 
 void Menu::run()
@@ -238,13 +238,19 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	string saveName;
 	cout << "Veuillez saisir le nom de la sauvegarde : ";
 	cin >> saveName;
+	saveName = string(DIR) + saveName;
+	
+	if(checkExists(saveName))
+	{
+		char rep;
+		cout << "Le fichier existe deja, voulez-vous l'ecraser ? (o/n) " << endl;
+		cin >> rep;
+		if(rep == 'n')
+			return;
+	}
 
 	ofstream fichierSave;
-	fichierSave.open(string(DIR) + string(saveName));
-	cout << fichierSave.good() << endl;
-	//ofstream fichierSave(string(DIR) + string(saveName));
-
-
+	fichierSave.open(string(saveName));
 
 	if(type == CritereType::NONE)
 	{
