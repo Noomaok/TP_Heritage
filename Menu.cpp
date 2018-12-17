@@ -229,7 +229,11 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	string saveName;
 	cout << "Veuillez saisir le nom de la sauvegarde : ";
 	cin >> saveName;
-	ofstream fichierSave(string(DIR) + string(saveName));
+
+	ofstream fichierSave;
+	fichierSave.open(string(DIR) + string(saveName));
+	cout << fichierSave.good() << endl;
+	//ofstream fichierSave(string(DIR) + string(saveName));
 
 	if(type == CritereType::NONE)
 	{
@@ -241,8 +245,6 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			unTrajet->SaveTrajet(fichierSave);
 		}
 	}
-
-
 
 	fichierSave.close();
 }//--------Fin de Sauvegarde
