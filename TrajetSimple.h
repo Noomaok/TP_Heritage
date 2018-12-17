@@ -29,6 +29,8 @@ public:
 
 	virtual int GetType() const;
 
+	virtual void SaveTrajet(ofstream &fichier) const;
+
 	virtual Trajet* Clone() const;
 	// Mode d'emploi :
 	// Renvoie une copie du trajet simple courant

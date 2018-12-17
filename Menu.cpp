@@ -2,7 +2,10 @@
 
 //------------- Include syst�me ------------------------------------------------------------
 #include <iostream>
+#include <fstream>
 #include <cstring>
+#include <string>
+#include <stdarg.h>
 
 using namespace std;
 
@@ -133,6 +136,8 @@ void Menu::run()
 			cout << endl;
 		}
 	}
+
+	Sauvegarde(CritereType::NONE);
 }//--------Fin de run
 
 TrajetSimple* Menu::creerTrajetSimple()
@@ -215,6 +220,32 @@ TrajetCompose* Menu::creerTrajetCompose(const Catalogue & catalogue)
 
 	return newTrajet;
 }//--------Fin de creerTrajetCompose
+
+void Menu::Sauvegarde(CritereType type, ...) const
+{
+	va_list ap;
+	va_start(ap, type);
+
+	string saveName;
+	cout << "Veuillez saisir le nom de la sauvegarde : ";
+	cin >> saveName;
+	ofstream fichierSave(string(DIR) + string(saveName));
+
+	if(type == CritereType::NONE)
+	{
+		for(int i = 0; i < catal.GetNbElement(); i++)
+		{
+			Trajet * unTrajet = catal[i];
+			int typeTrajet =  unTrajet->GetType();
+			fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+			unTrajet->SaveTrajet(fichierSave);
+		}
+	}
+
+
+
+	fichierSave.close();
+}//--------Fin de Sauvegarde
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
 

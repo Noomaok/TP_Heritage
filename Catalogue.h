@@ -5,6 +5,7 @@
 //-------------- Interfaces utilisées -----------------------------
 #include "Trajet.h"
 #include "TableauTrajet.h"
+#include <fstream>
 //-------------- Constantes ---------------------------------------
 //-------------- Types --------------------------------------------
 

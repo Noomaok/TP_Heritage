@@ -3,6 +3,10 @@
 #define TRAJET_H
 
 //-------------- Interfaces utilisées -----------------------------
+#include <fstream>
+
+using namespace std;
+
 //-------------- Constantes ---------------------------------------
 //-------------- Types --------------------------------------------
 
@@ -27,6 +31,8 @@ public:
 	// Methode virtuelle pur destine a gerer l'affichage des trajets
 
 	virtual int GetType() const = 0;
+
+	virtual void SaveTrajet(ofstream &fichier) const = 0;
 
 	static bool TestCompatible(Trajet const &  trajet1, const Trajet & trajet2);
 	// Mode d'emploi :

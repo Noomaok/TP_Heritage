@@ -10,6 +10,7 @@
 #include "Catalogue.h"
 
 //-------------- Constantes ---------------------------------------
+#define DIR "save/"
 //-------------- Types --------------------------------------------
 
 //-----------------------------------------------------------------
@@ -17,6 +18,7 @@
 // Gere le fonctionnement du menu pour l'ajout de trajet, l'affichage
 // du catalogue ainsi que la recherche de trajet.
 //-----------------------------------------------------------------
+typedef enum CritereType { NONE, ON_TYPE, ON_DEPART, ON_ARRIVEE, ON_BOTH, ON_INTER} CritereType;
 
 class Menu
 {
@@ -36,7 +38,7 @@ public:
 	// Mode d'emploi :
 	// Lance la procedure de creation d'un trajet simple. Renvoie un pointeur sur le nouveau trajet.
 
-	void Sauvegarde() const;
+	void Sauvegarde(CritereType type, ...) const;
 
 	void Chargement();
 
@@ -55,7 +57,6 @@ protected:
 	//----- Methodes prot�g�es -----
 	//----- Attributs prot�g�s -----
 
-	enum CritereType { NONE, ON_TYPE, ON_DEPART, ON_ARRIVEE, ON_BOTH, ON_INTER};
 	enum SelectionMenu { M_MENU, CT_MENU, RP_MENU, TC_MENU, DELETE_TRAJET, SAVE, LOAD};
 	SelectionMenu currentMenu;
 	Catalogue catal;

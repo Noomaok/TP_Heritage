@@ -40,6 +40,8 @@ public:
 	// Mode d'emploi :
 	// Renvoie une copie du trajet compose courant
 
+	virtual void SaveTrajet(ofstream &fichier) const;
+
 //---- Surchage d'opérateurs ----
 //--- Constructeurs - Desctructeurs ---
 

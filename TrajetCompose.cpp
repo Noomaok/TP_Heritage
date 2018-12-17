@@ -2,6 +2,7 @@
 
 //------------- Include système ------------------------------------------------------------
 #include <iostream>
+#include <fstream>
 #include <cstring>
 
 using namespace std;
@@ -15,6 +16,18 @@ int TrajetCompose::compteurTc = 0;
 
 
 //------------- Methodes publiques ---------------------------------------------------------
+
+void TrajetCompose::SaveTrajet(ofstream & fichier) const
+{
+	fichier << listeTrajet->GetNbElement() << endl;
+	for(int i = 0; i < listeTrajet->GetNbElement(); i++)
+	{
+		Trajet * unTrajet = (*listeTrajet)[i];
+		int typeTrajet =  unTrajet->GetType();
+		fichier << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+		unTrajet->SaveTrajet(fichier);
+	}
+}
 
 bool TrajetCompose::RemoveLast()
 {

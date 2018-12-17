@@ -30,6 +30,11 @@ int TrajetSimple::GetType() const
 	return 0;
 }
 
+void TrajetSimple::SaveTrajet(ofstream &fichier) const
+{
+	fichier << moyenTransport << endl;
+}
+
 //------------- Surcharge d'opérateurs -----------------------------------------------------
 
 
