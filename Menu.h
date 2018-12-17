@@ -8,6 +8,7 @@
 #include "TrajetCompose.h"
 #include "TableauTrajet.h"
 #include "Catalogue.h"
+#include <string>
 
 //-------------- Constantes ---------------------------------------
 #define DIR "save/"
@@ -33,10 +34,12 @@ public:
 	// Mode d'emploi :
 	// Lance la procedure de creation d'un trajet compose. Renvoi un pointeur sur le nouveau trajet.
 	// Le parametre formel catalogue est utilisé pour l'ajout d'un trajet existant dans le trajet compose.
-	
+
 	TrajetSimple* creerTrajetSimple();
 	// Mode d'emploi :
 	// Lance la procedure de creation d'un trajet simple. Renvoie un pointeur sur le nouveau trajet.
+
+	static bool checkExists(string file);
 
 	void Sauvegarde(CritereType type, ...) const;
 

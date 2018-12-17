@@ -16,6 +16,15 @@ using namespace std;
 
 //------------- Methodes publiques ---------------------------------------------------------
 
+bool checkExists(string file)
+{
+		ifstream file_to_check(file.c_str());
+		if(file_to_check.is_open())
+			return true;
+		return false;
+		file_to_check.close();
+}
+
 void Menu::run()
 {
 
@@ -127,7 +136,7 @@ void Menu::run()
 				cout << endl << "Recherche de parcours :\n -Version Simple [vs]\n -Version Avancee [va]\n -Retour [r]" << endl;
 			}
 		}
-		
+
 		lecture[0] = '\0';
 
 		if (!modif)
@@ -234,6 +243,8 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	fichierSave.open(string(DIR) + string(saveName));
 	cout << fichierSave.good() << endl;
 	//ofstream fichierSave(string(DIR) + string(saveName));
+
+
 
 	if(type == CritereType::NONE)
 	{
