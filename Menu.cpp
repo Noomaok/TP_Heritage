@@ -27,17 +27,6 @@ bool Menu::checkExists(string file) const
 
 void Menu::run()
 {
-
-	/*TrajetSimple* ts1 = new TrajetSimple("DONTRIEN", "REIMS", "VOITURE");
-	TrajetSimple* ts2 = new TrajetSimple("PARIS", "DONTRIEN", "VOITURE");
-	TrajetSimple* ts3 = new TrajetSimple("REIMS", "PARIS", "VOITURE");
-	TrajetSimple* ts4 = new TrajetSimple("MARSEILLE", "DONTRIEN", "VOITURE");
-
-	catal.Add(ts1);
-	catal.Add(ts2);
-	catal.Add(ts3);
-	catal.Add(ts4); */ //Exemples destin�s aux tests
-
 	char lecture[100];
 	lecture[0] = '\0';
 
@@ -321,17 +310,25 @@ void Menu::Chargement(CritereType type, ...)
 	ifstream fichierLoad;
 	fichierLoad.open(loadName);
 
+	string villeDep, villeArr, moyTransport;
 	if(type == CritereType::NONE)
 	{
 		char categorie;
 		while(categorie != '3')
 		{
-			fichierLoad >> categorie;
+			fichierLoad >> categorie >> villeDep >> villeArr;
 			if(categorie == '0')
 			{
-				string villeDep, villeArr, moyTransport;
-				fichierLoad >> villeDep >> villeArr >> moyTransport;
+				fichierLoad >> moyTransport;
 				TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+				catal.Add(nouveauTrajet);
+			}
+			else if(categorie == '1')
+			{
+				int nbTrajet;
+				fichierLoad >> nbTrajet;
+				TrajetCompose *nouveauTrajet = new TrajetCompose();
+				fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 				catal.Add(nouveauTrajet);
 			}
 		}

@@ -6,6 +6,7 @@
 #include "Trajet.h"
 #include "TableauTrajet.h"
 
+#include <fstream>
 //-------------- Constantes ---------------------------------------
 //-------------- Types --------------------------------------------
 
@@ -30,11 +31,11 @@ public:
 
 	virtual int GetType() const;
 
+	streampos loadTrajetCompose(ifstream &file, streampos currentPos,int nbAdd);
+
 	bool AjouterTrajet(Trajet *nouveauTrajet);
 	// Mode d'emploi :
 	// Ajouter le trajet à la liste si il est compatible avec ceux déjà présent. Renvoie true si le trajet été corectement ajouté. Sinon renvoie false.
-
-	bool RemoveLast();
 
 	virtual Trajet* Clone() const;
 	// Mode d'emploi :

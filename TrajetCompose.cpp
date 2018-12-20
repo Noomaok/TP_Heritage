@@ -9,6 +9,7 @@ using namespace std;
 
 //------------- Include personnel ----------------------------------------------------------
 #include "TrajetCompose.h"
+#include "TrajetSimple.h"
 
 int TrajetCompose::compteurTc = 0;
 
@@ -29,11 +30,31 @@ void TrajetCompose::SaveTrajet(ofstream & fichier) const
 	}
 }
 
-bool TrajetCompose::RemoveLast()
+streampos TrajetCompose::loadTrajetCompose(ifstream &file, streampos currentPos, int nbAdd)
 {
-	//if(listeTrajet->RemoveLast())
-	return true;
-}// WIP
+	file.seekg(currentPos);
+	char categorie;
+	string villeDep, villeArr, moyTransport;
+	for(int i = 0; i < nbAdd; i++)
+	{
+		file >> categorie >> villeDep >> villeArr;
+		if(categorie == '0')
+		{
+			file >> moyTransport;
+			TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+			listeTrajet->Add(nouveauTrajet);
+		}
+		else if(categorie == '1')
+		{
+			int nbTrajet;
+			file >> nbTrajet;
+			TrajetCompose *nouveauTrajet = new TrajetCompose();
+			file.seekg(nouveauTrajet->loadTrajetCompose(file, file.tellg(), nbTrajet));
+			listeTrajet->Add(nouveauTrajet);
+		}
+	}
+	return file.tellg();
+}
 
 int TrajetCompose::GetType() const
 {
