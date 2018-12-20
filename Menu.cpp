@@ -169,7 +169,7 @@ void Menu::run()
 			else
 			{
 				modif = false;
-				cout << endl << "Sauvegarde :\n -Pas de critere [none]\n -En fonction du type [type]\n -En fonction des villes [dep] [arr] [both]\n -Sur un intervalle [inter]\n -Retour [r]" << endl;
+				cout << endl << "Chargement :\n -Pas de critere [none]\n -En fonction du type [type]\n -En fonction des villes [dep] [arr] [both]\n -Sur un intervalle [inter]\n -Retour [r]" << endl;
 			}
 		}
 		lecture[0] = '\0';
@@ -296,6 +296,9 @@ void Menu::Sauvegarde(CritereType type, ...) const
 		}
 	}
 
+	// Mark end of file for loading
+	fichierSave << '3';
+
 	fichierSave.close();
 }//--------Fin de Sauvegarde
 
@@ -320,11 +323,11 @@ void Menu::Chargement(CritereType type, ...)
 
 	if(type == CritereType::NONE)
 	{
-		int type;
-		while(!fichierLoad.eof())
+		char categorie;
+		while(categorie != '3')
 		{
-			fichierLoad >> type;
-			if(type == 0)
+			fichierLoad >> categorie;
+			if(categorie == '0')
 			{
 				string villeDep, villeArr, moyTransport;
 				fichierLoad >> villeDep >> villeArr >> moyTransport;
@@ -334,7 +337,7 @@ void Menu::Chargement(CritereType type, ...)
 		}
 	}
 
-}//--------Fin dde Chargement
+}//--------Fin de Chargement
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
 
