@@ -1,3 +1,7 @@
+#ignore specific binary and executable files
 *.o
 GES
+
+#ignore general directories
 /save
+/.vscode
