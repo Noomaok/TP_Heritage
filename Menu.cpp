@@ -20,7 +20,7 @@ bool Menu::checkExists(string file) const
 {
 	ifstream file_to_check(file.c_str());
 	if(file_to_check.is_open())
-		return true;
+	return true;
 	file_to_check.close();
 	return false;
 }
@@ -138,13 +138,21 @@ void Menu::run()
 			else if (strcmp(lecture, "type") == 0)
 			{
 				int selection;
-				cout << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
+				cout << endl << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> lecture;
 				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
 				{
 					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
 					Sauvegarde(CritereType::ON_TYPE, selection);
 				}
+			}
+			else if (strcmp(lecture, "dep") == 0)
+			{
+				char *ville = new char[100];
+				cout << "Saisir la ville de départ : ";
+				cin >> ville;
+				Sauvegarde(CritereType::ON_DEPART, ville);
+				delete [] ville;
 			}
 			else if (strcmp(lecture, "r") == 0)
 			{
@@ -290,7 +298,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 		cout << "Le fichier existe deja, voulez-vous l'ecraser ? (o/n) " << endl;
 		cin >> rep;
 		if(rep == 'n')
-			return;
+		return;
 	}
 
 	ofstream fichierSave;
@@ -314,6 +322,21 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			Trajet * unTrajet = catal[i];
 			int typeTrajet =  unTrajet->GetType();
 			if(typeTrajet == selection)
+			{
+				fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+				unTrajet->SaveTrajet(fichierSave);
+			}
+		}
+	}
+	else if(type == CritereType::ON_DEPART)
+	{
+		char* ville = va_arg(ap, char*);
+		for(int i = 0; i < catal.GetNbElement(); i++)
+		{
+			Trajet * unTrajet = catal[i];
+			int typeTrajet =  unTrajet->GetType();
+			const char* villeDepart = unTrajet->GetVilleDepart();
+			if(strcmp(ville,villeDepart) == 0)
 			{
 				fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
 				unTrajet->SaveTrajet(fichierSave);
@@ -407,17 +430,17 @@ void Menu::Chargement(CritereType type, ...)
 
 Menu::Menu() : currentMenu(SelectionMenu::M_MENU), catal()
 {
-#ifdef MAP
+	#ifdef MAP
 	cout << "Appel du constructeur de <Menu>" << endl;
-#endif
+	#endif
 	run();
 }//------Fin du constructeur
 
 Menu::~Menu()
 {
-#ifdef MAP
+	#ifdef MAP
 	cout << "Appel du destructeur de <Menu>" << endl;
-#endif
+	#endif
 }//------Fin du destructeur
 
 //------------- Methodes prot�g�es ---------------------------------------------------------
