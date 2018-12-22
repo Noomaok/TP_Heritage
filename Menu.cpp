@@ -162,6 +162,17 @@ void Menu::run()
 			{
 				Chargement(CritereType::NONE);
 			}
+			else if (strcmp(lecture, "type") == 0)
+			{
+				int selection;
+				cout << "Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
+				cin >> lecture;
+				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
+				{
+					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
+					Chargement(CritereType::ON_TYPE, selection);
+				}
+			}
 			else if (strcmp(lecture, "r") == 0)
 			{
 				currentMenu = SelectionMenu::M_MENU;
@@ -303,8 +314,10 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			Trajet * unTrajet = catal[i];
 			int typeTrajet =  unTrajet->GetType();
 			if(typeTrajet == selection)
-			fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
-			unTrajet->SaveTrajet(fichierSave);
+			{
+				fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+				unTrajet->SaveTrajet(fichierSave);
+			}
 		}
 	}
 
@@ -335,10 +348,11 @@ void Menu::Chargement(CritereType type, ...)
 	ifstream fichierLoad;
 	fichierLoad.open(loadName);
 
+	char categorie = '4';
 	string villeDep, villeArr, moyTransport;
+
 	if(type == CritereType::NONE)
 	{
-		char categorie = '4';
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
@@ -358,7 +372,34 @@ void Menu::Chargement(CritereType type, ...)
 			}
 		}
 	}
-
+	else if(type == CritereType::ON_TYPE)
+	{
+		int selection = va_arg(ap, int);
+		while(categorie != '3')
+		{
+			fichierLoad >> categorie >> villeDep >> villeArr;
+			if(categorie == selection)
+			{
+				if(categorie == '0')
+				{
+					fichierLoad >> moyTransport;
+					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+					catal.Add(nouveauTrajet);
+				}
+				else if(categorie == '1')
+				{
+					int nbTrajet;
+					fichierLoad >> nbTrajet;
+					TrajetCompose *nouveauTrajet = new TrajetCompose();
+					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					catal.Add(nouveauTrajet);
+				}
+			}
+			else{
+				fichierLoad >> categorie >> villeDep >> villeArr;
+			}
+		}
+	}
 }//--------Fin de Chargement
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
