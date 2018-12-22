@@ -261,7 +261,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	cout << "Veuillez saisir le nom de la sauvegarde : ";
 	cin >> saveName;
 	saveName = string(DIR) + saveName;
-	
+
 	if(checkExists(saveName))
 	{
 		char rep;
@@ -297,6 +297,8 @@ void Menu::Chargement(CritereType type, ...)
 	va_start(ap, type);
 
 	string loadName;
+	//ce serait pratique d'afficher les sauvegardes disponibles à cet endroit
+	//system("ls -l"); <- mais dans le dossier "/save"
 	cout << "Veuillez saisir le nom du fichier a charger : ";
 	cin >> loadName;
 	loadName = string(DIR) + loadName;
@@ -313,7 +315,7 @@ void Menu::Chargement(CritereType type, ...)
 	string villeDep, villeArr, moyTransport;
 	if(type == CritereType::NONE)
 	{
-		char categorie;
+		char categorie = '4';
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;

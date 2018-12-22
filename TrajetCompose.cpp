@@ -179,4 +179,3 @@ TrajetCompose::~TrajetCompose()
 }//-------- Fin du destructeur
 
 //------------- Methodes protégées ---------------------------------------------------------
-
