@@ -348,7 +348,7 @@ void Menu::Chargement(CritereType type, ...)
 	ifstream fichierLoad;
 	fichierLoad.open(loadName);
 
-	char categorie = '4';
+	char categorie = 'X';
 	string villeDep, villeArr, moyTransport;
 
 	if(type == CritereType::NONE)
