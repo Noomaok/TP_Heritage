@@ -3,12 +3,12 @@ RM = rm
 RMFLAGS = -f
 EXE = GES
 INT = Trajet.h TrajetSimple.h TrajetCompose.h TableauTrajet.h Catalogue.h Menu.h
-REAL = $(INT:.h=.cpp) 
+REAL = $(INT:.h=.cpp)
 OBJ = $(REAL:.cpp=.o)
 COMP = g++
 CPPFLAGS =-ansi -pedantic -Wall -std=c++11 -g #-DMAP
 EDL = g++
-EDLFLAGS = 
+EDLFLAGS =
 LIBS =
 EFFACE = clean
 MAKE = make
@@ -23,7 +23,11 @@ all :
 debug :
 	$(ECHO) "Edition des liens de <$(EXE)> version debug"
 	$(MAKE) -s $(EXE)
-	
+
+run :
+	$(ECHO) "Execution de <$(EXE)>"
+	./$(EXE)
+
 release :
 	$(ECHO) "Edition des liens de <$(EXE)> version release"
 	$(MAKE) -s $(EXE)

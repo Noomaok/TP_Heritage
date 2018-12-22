@@ -135,6 +135,17 @@ void Menu::run()
 			{
 				Sauvegarde(CritereType::NONE);
 			}
+			else if (strcmp(lecture, "type") == 0)
+			{
+				int selection;
+				cout << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
+				cin >> lecture;
+				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
+				{
+					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
+					Sauvegarde(CritereType::ON_TYPE, selection);
+				}
+			}
 			else if (strcmp(lecture, "r") == 0)
 			{
 				currentMenu = SelectionMenu::M_MENU;
@@ -280,6 +291,18 @@ void Menu::Sauvegarde(CritereType type, ...) const
 		{
 			Trajet * unTrajet = catal[i];
 			int typeTrajet =  unTrajet->GetType();
+			fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+			unTrajet->SaveTrajet(fichierSave);
+		}
+	}
+	else if(type == CritereType::ON_TYPE)
+	{
+		int selection = va_arg(ap, int);
+		for(int i = 0; i < catal.GetNbElement(); i++)
+		{
+			Trajet * unTrajet = catal[i];
+			int typeTrajet =  unTrajet->GetType();
+			if(typeTrajet == selection)
 			fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
 			unTrajet->SaveTrajet(fichierSave);
 		}
