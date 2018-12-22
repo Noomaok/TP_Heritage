@@ -1,6 +1,6 @@
 # TP_Heritage
 
-Si tu charges le fichier 
+Si tu charges le fichier
 
 0 A B X
 
@@ -32,7 +32,7 @@ et que tu le save avec le critère NONE, le fichier de sauvegarde aura cette all
 
 3
 
-C'est parce que dans la méthode TrajetCompose::loadTrajetCompose, tu avais mis 
-listeTrajet->Add(nouveauTrajet); 
-et pas 
+C'est parce que dans la méthode TrajetCompose::loadTrajetCompose, tu avais mis
+listeTrajet->Add(nouveauTrajet);
+et pas
 AjouterTrajet(nouveauTrajet);

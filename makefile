@@ -26,7 +26,7 @@ debug :
 
 run :
 	$(ECHO) "Execution de <$(EXE)>"
-	./$(EXE)
+	valgrind ./$(EXE)
 
 release :
 	$(ECHO) "Edition des liens de <$(EXE)> version release"

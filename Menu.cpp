@@ -396,7 +396,6 @@ void Menu::Chargement(CritereType type, ...)
 				}
 			}
 			else{
-				fichierLoad >> categorie >> villeDep >> villeArr;
 			}
 		}
 	}

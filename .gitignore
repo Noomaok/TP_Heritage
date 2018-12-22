@@ -5,3 +5,4 @@ GES
 #ignore general directories
 /save
 /.vscode
+/GES.dSYM
