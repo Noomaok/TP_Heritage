@@ -172,14 +172,21 @@ void Menu::run()
 			}
 			else if (strcmp(lecture, "type") == 0)
 			{
-				int selection;
-				cout << "Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
-				cin >> lecture;
-				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
+				char selection = 'X';
+				cout <<"Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
+				cin >> selection;
+				if((selection == '0') || (selection == '1'))
 				{
-					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
 					Chargement(CritereType::ON_TYPE, selection);
 				}
+			}
+			else if (strcmp(lecture, "dep") == 0)
+			{
+				char *ville = new char[100];
+				cout << "Saisir la ville de départ : ";
+				cin >> ville;
+				Chargement(CritereType::ON_DEPART, ville);
+				delete [] ville;
 			}
 			else if (strcmp(lecture, "r") == 0)
 			{
@@ -288,7 +295,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	va_start(ap, type);
 
 	string saveName;
-	cout << "Veuillez saisir le nom de la sauvegarde : ";
+	cout << endl << "Veuillez saisir le nom de la sauvegarde : ";
 	cin >> saveName;
 	saveName = string(DIR) + saveName;
 
@@ -321,6 +328,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 		{
 			Trajet * unTrajet = catal[i];
 			int typeTrajet =  unTrajet->GetType();
+
 			if(typeTrajet == selection)
 			{
 				fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
@@ -358,7 +366,7 @@ void Menu::Chargement(CritereType type, ...)
 	string loadName;
 	//ce serait pratique d'afficher les sauvegardes disponibles à cet endroit
 	//system("ls -l"); <- mais dans le dossier "/save"
-	cout << "Veuillez saisir le nom du fichier a charger : ";
+	cout << endl << "Veuillez saisir le nom du fichier a charger : ";
 	cin >> loadName;
 	loadName = string(DIR) + loadName;
 
@@ -373,6 +381,8 @@ void Menu::Chargement(CritereType type, ...)
 
 	char categorie = 'X';
 	string villeDep, villeArr, moyTransport;
+	int nbTrajet;
+	char useless;
 
 	if(type == CritereType::NONE)
 	{
@@ -387,7 +397,6 @@ void Menu::Chargement(CritereType type, ...)
 			}
 			else if(categorie == '1')
 			{
-				int nbTrajet;
 				fichierLoad >> nbTrajet;
 				TrajetCompose *nouveauTrajet = new TrajetCompose();
 				fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
@@ -397,12 +406,45 @@ void Menu::Chargement(CritereType type, ...)
 	}
 	else if(type == CritereType::ON_TYPE)
 	{
-		int selection = va_arg(ap, int);
+		char selection = va_arg(ap, int);
+
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
+			cout << "coucou " << categorie << " = " << selection << " ? " << (categorie == selection)<< endl;
 			if(categorie == selection)
 			{
+				if(categorie == '0')
+				{
+					fichierLoad >> moyTransport;
+					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+					catal.Add(nouveauTrajet);
+				}
+				else if(categorie == '1')
+				{
+					fichierLoad >> nbTrajet;
+					TrajetCompose *nouveauTrajet = new TrajetCompose();
+					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					catal.Add(nouveauTrajet);
+				}
+			}
+			else if(selection == '1'){
+				//permet de lire le moyen de transport lorsqu'il n'est pas utilisé
+				//afin de ne pas avoir de décalage dans les lectures
+				//je ne suis pas 100% sur de *pourquoi* ça fonctionne mais ça à l'air de marcher
+				fichierLoad >> useless;
+			}
+		}
+	}
+	else if(type == CritereType::ON_DEPART)
+	{
+		char* ville = va_arg(ap, char*);
+
+		while(categorie != '3')
+		{
+			fichierLoad >> categorie >> villeDep >> villeArr;
+			//cout << "coucou 1 " << villeDep.c_str() << " = " << ville << " ? " << endl;
+			if(strcmp(ville,villeDep.c_str()) == 0){
 				if(categorie == '0')
 				{
 					fichierLoad >> moyTransport;
@@ -417,8 +459,6 @@ void Menu::Chargement(CritereType type, ...)
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 				}
-			}
-			else{
 			}
 		}
 	}
