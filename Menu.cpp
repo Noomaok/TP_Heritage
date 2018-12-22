@@ -411,7 +411,6 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			cout << "coucou " << categorie << " = " << selection << " ? " << (categorie == selection)<< endl;
 			if(categorie == selection)
 			{
 				if(categorie == '0')
@@ -443,7 +442,6 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			//cout << "coucou 1 " << villeDep.c_str() << " = " << ville << " ? " << endl;
 			if(strcmp(ville,villeDep.c_str()) == 0){
 				if(categorie == '0')
 				{
