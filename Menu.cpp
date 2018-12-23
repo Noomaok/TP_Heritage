@@ -354,7 +354,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			const char* villeDepart = unTrajet->GetVilleDepart();
 			if(strcmp(ville,villeDepart) == 0)
 			{
-				fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+				fichierSave << typeTrajet << " " << villeDepart << " " << unTrajet->GetVilleArrivee() << " ";
 				unTrajet->SaveTrajet(fichierSave);
 			}
 		}
@@ -390,7 +390,7 @@ void Menu::Chargement(CritereType type, ...)
 	char categorie = 'X';
 	string villeDep, villeArr, moyTransport;
 	int nbTrajet;
-	char useless;
+	string useless; //Permet de se débarasser des strings que l'on veut eviter
 
 	if(type == CritereType::NONE)
 	{
@@ -416,31 +416,38 @@ void Menu::Chargement(CritereType type, ...)
 	{
 		char selection = va_arg(ap, int);
 
-		while(categorie != '3')
+		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			if(categorie == selection)
+			if(categorie == '0')
 			{
-				if(categorie == '0')
+				fichierLoad >> moyTransport;
+				if(categorie == selection)
 				{
-					fichierLoad >> moyTransport;
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
 				}
-				else if(categorie == '1')
+			}
+			else if(categorie == '1')
+			{
+				fichierLoad >> nbTrajet;
+				if(categorie == selection)
 				{
-					fichierLoad >> nbTrajet;
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 				}
-			}
-			else if(selection == '1')
-			{
-				//permet de lire le moyen de transport lorsqu'il n'est pas utilisé
-				//afin de ne pas avoir de décalage dans les lectures
-				//je ne suis pas 100% sur de *pourquoi* ça fonctionne mais ça à l'air de marcher
-				fichierLoad >> useless;
+				else
+				{
+					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
+					{
+						fichierLoad >> useless >> useless >> useless >> useless; 
+						//Il faudrait verifier si le trajet compose contient un autre trajet compose
+						//Pour ça il faudrait verifier la derniere valeur de useless,
+						//Si c'est un entier, alors on l'ajoute a nbTrajet et on continue de skip les trajets
+						//Mais comme on ne prevoit pas c'est cas la, ce n'est pas la priorite
+					}
+				}
 			}
 		}
 	}
