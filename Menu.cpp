@@ -138,7 +138,7 @@ void Menu::run()
 			else if (strcmp(lecture, "type") == 0)
 			{
 				int selection;
-				cout << endl << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
+				cout << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> lecture;
 				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
 				{
@@ -166,6 +166,18 @@ void Menu::run()
 				Sauvegarde(CritereType::ON_ARRIVEE, ville);
 				delete [] ville;
 			}
+			else if (strcmp(lecture, "both") == 0)
+			{
+				char *villeD = new char[100];
+				cout << "Saisir la ville de départ : ";
+				cin >> villeD;
+				char *villeA = new char[100];
+				cout << "Saisir la ville d'arrivée : ";
+				cin >> villeA;
+				Sauvegarde(CritereType::ON_BOTH, villeD, villeA);
+				delete [] villeD;
+				delete [] villeA;
+			}
 			else if (strcmp(lecture, "r") == 0)
 			{
 				currentMenu = SelectionMenu::M_MENU;
@@ -185,7 +197,7 @@ void Menu::run()
 			else if (strcmp(lecture, "type") == 0)
 			{
 				char selection = 'X';
-				cout <<"Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
+				cout << "Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> selection;
 				if((selection == '0') || (selection == '1'))
 				{
@@ -211,6 +223,18 @@ void Menu::run()
 				cin >> ville;
 				Chargement(CritereType::ON_ARRIVEE, ville);
 				delete [] ville;
+			}
+			else if (strcmp(lecture, "both") == 0)
+			{
+				char *villeD = new char[100];
+				cout << "Saisir la ville de départ : ";
+				cin >> villeD;
+				char *villeA = new char[100];
+				cout << "Saisir la ville d'arrivée : ";
+				cin >> villeA;
+				Chargement(CritereType::ON_BOTH, villeD, villeA);
+				delete [] villeD;
+				delete [] villeA;
 			}
 			else if (strcmp(lecture, "r") == 0)
 			{
@@ -390,6 +414,24 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			}
 		}
 	}
+	else if(type == CritereType::ON_BOTH)
+	{
+		char* villeD = va_arg(ap, char*);
+		char* villeA = va_arg(ap, char*);
+		cout << villeD << " : " << villeA << endl;
+		for(int i = 0; i < catal.GetNbElement(); i++)
+		{
+			Trajet * unTrajet = catal[i];
+			int typeTrajet =  unTrajet->GetType();
+			const char* villeDepart = unTrajet->GetVilleDepart();
+			const char* villeArrivee = unTrajet->GetVilleArrivee();
+			if(strcmp(villeD,villeDepart) == 0 && strcmp(villeA,villeArrivee) == 0)
+			{
+				fichierSave << typeTrajet << " " << villeDepart << " " << villeArrivee << " ";
+				unTrajet->SaveTrajet(fichierSave);
+			}
+		}
+	}
 
 	// Mark end of file for loading
 	fichierSave << '3';
@@ -450,10 +492,11 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
+			bool checkLoad = categorie == selection;
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
-				if(categorie == selection)
+				if(checkLoad)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
@@ -462,7 +505,7 @@ void Menu::Chargement(CritereType type, ...)
 			else if(categorie == '1')
 			{
 				fichierLoad >> nbTrajet;
-				if(categorie == selection)
+				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
@@ -489,10 +532,11 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
+			bool checkLoad = strcmp(ville,villeDep.c_str()) == 0;
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
-				if(strcmp(ville,villeDep.c_str()) == 0)
+				if(checkLoad)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
@@ -501,7 +545,7 @@ void Menu::Chargement(CritereType type, ...)
 			else if(categorie == '1')
 			{
 				fichierLoad >> nbTrajet;
-				if(strcmp(ville,villeDep.c_str()) == 0)
+				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
@@ -524,10 +568,11 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
+			bool checkLoad = strcmp(ville,villeArr.c_str()) == 0;
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
-				if(strcmp(ville,villeArr.c_str()) == 0)
+				if(checkLoad)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
@@ -536,7 +581,44 @@ void Menu::Chargement(CritereType type, ...)
 			else if(categorie == '1')
 			{
 				fichierLoad >> nbTrajet;
-				if(strcmp(ville,villeArr.c_str()) == 0)
+				if(checkLoad)
+				{
+					TrajetCompose *nouveauTrajet = new TrajetCompose();
+					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					catal.Add(nouveauTrajet);
+				}
+				else
+				{
+					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
+					{
+						fichierLoad >> useless >> useless >> useless >> useless; 
+					}
+				}
+			}
+		}
+	}
+	else if(type == CritereType::ON_BOTH)
+	{
+		const char* villeD = va_arg(ap, char*);
+		const char* villeA = va_arg(ap, char*);
+
+		while(categorie != '3')
+		{
+			fichierLoad >> categorie >> villeDep >> villeArr;
+			bool checkLoad = (strcmp(villeD,villeDep.c_str()) == 0 && strcmp(villeA,villeArr.c_str()) == 0);
+			if(categorie == '0')
+			{
+				fichierLoad >> moyTransport;
+				if(checkLoad)
+				{
+					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+					catal.Add(nouveauTrajet);
+				}
+			}
+			else if(categorie == '1')
+			{
+				fichierLoad >> nbTrajet;
+				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
