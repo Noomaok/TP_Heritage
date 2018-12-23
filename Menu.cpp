@@ -455,30 +455,34 @@ void Menu::Chargement(CritereType type, ...)
 	{
 		const char* ville = va_arg(ap, char*);
 
-		while(categorie != '3')
+		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			cout << ville << " = " << villeDep << " ? " << (strcmp(ville,villeDep.c_str()) == 0) << endl;
-			if(strcmp(ville,villeDep.c_str()) == 0)
+			if(categorie == '0')
 			{
-				if(categorie == '0')
+				fichierLoad >> moyTransport;
+				if(strcmp(ville,villeDep.c_str()) == 0)
 				{
-					fichierLoad >> moyTransport;
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
 				}
-				else if(categorie == '1')
+			}
+			else if(categorie == '1')
+			{
+				fichierLoad >> nbTrajet;
+				if(strcmp(ville,villeDep.c_str()) == 0)
 				{
-					int nbTrajet;
-					fichierLoad >> nbTrajet;
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 				}
-			}
-			else
-			{
-				fichierLoad >> useless;
+				else
+				{
+					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
+					{
+						fichierLoad >> useless >> useless >> useless >> useless; 
+					}
+				}
 			}
 		}
 	}
