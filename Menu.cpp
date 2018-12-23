@@ -427,7 +427,8 @@ void Menu::Chargement(CritereType type, ...)
 					catal.Add(nouveauTrajet);
 				}
 			}
-			else if(selection == '1'){
+			else if(selection == '1')
+			{
 				//permet de lire le moyen de transport lorsqu'il n'est pas utilisé
 				//afin de ne pas avoir de décalage dans les lectures
 				//je ne suis pas 100% sur de *pourquoi* ça fonctionne mais ça à l'air de marcher
@@ -437,12 +438,14 @@ void Menu::Chargement(CritereType type, ...)
 	}
 	else if(type == CritereType::ON_DEPART)
 	{
-		char* ville = va_arg(ap, char*);
+		const char* ville = va_arg(ap, char*);
 
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			if(strcmp(ville,villeDep.c_str()) == 0){
+			cout << ville << " = " << villeDep << " ? " << (strcmp(ville,villeDep.c_str()) == 0) << endl;
+			if(strcmp(ville,villeDep.c_str()) == 0)
+			{
 				if(categorie == '0')
 				{
 					fichierLoad >> moyTransport;
@@ -457,6 +460,10 @@ void Menu::Chargement(CritereType type, ...)
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 				}
+			}
+			else
+			{
+				fichierLoad >> useless;
 			}
 		}
 	}
