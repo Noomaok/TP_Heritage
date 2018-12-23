@@ -42,7 +42,6 @@ streampos TrajetCompose::loadTrajetCompose(ifstream &file, streampos currentPos,
 		{
 			file >> moyTransport;
 			TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
-			//listeTrajet->Add(nouveauTrajet);
 			AjouterTrajet(nouveauTrajet);
 		}
 		else if(categorie == '1')
@@ -51,7 +50,7 @@ streampos TrajetCompose::loadTrajetCompose(ifstream &file, streampos currentPos,
 			file >> nbTrajet;
 			TrajetCompose *nouveauTrajet = new TrajetCompose();
 			file.seekg(nouveauTrajet->loadTrajetCompose(file, file.tellg(), nbTrajet));
-			listeTrajet->Add(nouveauTrajet);
+			AjouterTrajet(nouveauTrajet);
 		}
 	}
 	return file.tellg();

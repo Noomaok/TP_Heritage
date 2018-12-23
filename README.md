@@ -36,3 +36,5 @@ C'est parce que dans la méthode TrajetCompose::loadTrajetCompose, tu avais mis
 listeTrajet->Add(nouveauTrajet);
 et pas
 AjouterTrajet(nouveauTrajet);
+
+Rep : En effet, je suis aller trop vite dans l'ajout.
