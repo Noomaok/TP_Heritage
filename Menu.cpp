@@ -178,6 +178,23 @@ void Menu::run()
 				delete [] villeD;
 				delete [] villeA;
 			}
+			else if (strcmp(lecture, "inter") == 0)
+			{
+				int start;
+				cout << "Taille actuelle du catalogue : " << catal.GetNbElement() << endl << "Saisir l'indice de départ : ";
+				cin >> start;
+				int end;
+				cout << "Saisir l'indice de fin : ";
+				cin >> end;
+				if(end - start + 1 > 0)
+				{
+					Sauvegarde(CritereType::ON_INTER,start,end);
+				}
+				else
+				{
+					cout << "Intervalle invalide !" << endl;
+				}
+			}
 			else if (strcmp(lecture, "r") == 0)
 			{
 				currentMenu = SelectionMenu::M_MENU;
@@ -418,7 +435,6 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	{
 		char* villeD = va_arg(ap, char*);
 		char* villeA = va_arg(ap, char*);
-		cout << villeD << " : " << villeA << endl;
 		for(int i = 0; i < catal.GetNbElement(); i++)
 		{
 			Trajet * unTrajet = catal[i];
@@ -432,7 +448,18 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			}
 		}
 	}
-
+	else if(type == CritereType::ON_INTER)
+	{
+		int start = va_arg(ap, int);
+		int end = va_arg(ap, int);
+		for(int i = start-1; i < catal.GetNbElement() && i < end; i++)
+		{
+			Trajet * unTrajet = catal[i];
+			int typeTrajet =  unTrajet->GetType();
+			fichierSave << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
+			unTrajet->SaveTrajet(fichierSave);
+		}
+	}
 	// Mark end of file for loading
 	fichierSave << '3';
 
