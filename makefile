@@ -13,12 +13,12 @@ LIBS =
 EFFACE = clean
 MAKE = make
 
-.SILENT : debug release
+.SILENT : debug run
 
 all :
-	$(ECHO) "- all     : display this message"
-	$(ECHO) "- debug   : build the debug version"
-	$(ECHO) "- release : build the release version, without debug option"
+	$(ECHO) "- all   : display this message"
+	$(ECHO) "- debug : build the debug version"
+	$(ECHO) "- run   : run program using valgrind"
 
 debug :
 	$(ECHO) "Edition des liens de <$(EXE)> version debug"
@@ -27,10 +27,6 @@ debug :
 run :
 	$(ECHO) "Execution de <$(EXE)>"
 	valgrind ./$(EXE)
-
-release :
-	$(ECHO) "Edition des liens de <$(EXE)> version release"
-	$(MAKE) -s $(EXE)
 
 $(EXE) : $(OBJ)
 	$(EDL) $(EDLFLAGS) -o $(EXE) $(OBJ) $(LIBS)

@@ -145,6 +145,10 @@ void Menu::run()
 					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
 					Sauvegarde(CritereType::ON_TYPE, selection);
 				}
+				else
+				{
+					cout << "Selection invalide !" << endl;
+				}
 			}
 			else if (strcmp(lecture, "dep") == 0)
 			{
@@ -178,6 +182,10 @@ void Menu::run()
 				if((selection == '0') || (selection == '1'))
 				{
 					Chargement(CritereType::ON_TYPE, selection);
+				}
+				else
+				{
+					cout << "Selection invalide !" << endl;
 				}
 			}
 			else if (strcmp(lecture, "dep") == 0)
