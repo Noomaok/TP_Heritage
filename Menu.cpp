@@ -724,6 +724,7 @@ void Menu::Chargement(CritereType type, ...)
 				}
 			}
 		}
+		cout << endl << compteurAjout << " trajet ajoutés" << endl;
 	}
 }//--------Fin de Chargement
 
