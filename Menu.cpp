@@ -186,7 +186,7 @@ void Menu::run()
 				int end;
 				cout << "Saisir l'indice de fin : ";
 				cin >> end;
-				if(end - start + 1 > 0)
+				if(end - start + 1 > 0 && start > 0)
 				{
 					Sauvegarde(CritereType::ON_INTER,start,end);
 				}
@@ -252,6 +252,23 @@ void Menu::run()
 				Chargement(CritereType::ON_BOTH, villeD, villeA);
 				delete [] villeD;
 				delete [] villeA;
+			}
+			else if (strcmp(lecture, "inter") == 0)
+			{
+				int start;
+				cout << endl << "Saisir l'indice de départ (commence à 1!) : ";
+				cin >> start;
+				int end;
+				cout << "Saisir l'indice de fin : ";
+				cin >> end;
+				if(end - start + 1 > 0 && start > 0)
+				{
+					Chargement(CritereType::ON_INTER,start,end);
+				}
+				else
+				{
+					cout << "Intervalle invalide !" << endl;
+				}
 			}
 			else if (strcmp(lecture, "r") == 0)
 			{
@@ -542,7 +559,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
-						fichierLoad >> useless >> useless >> useless >> useless; 
+						fichierLoad >> useless >> useless >> useless >> useless;
 						//Il faudrait verifier si le trajet compose contient un autre trajet compose
 						//Pour ça il faudrait verifier la derniere valeur de useless,
 						//Si c'est un entier, alors on l'ajoute a nbTrajet et on continue de skip les trajets
@@ -582,7 +599,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
-						fichierLoad >> useless >> useless >> useless >> useless; 
+						fichierLoad >> useless >> useless >> useless >> useless;
 					}
 				}
 			}
@@ -618,7 +635,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
-						fichierLoad >> useless >> useless >> useless >> useless; 
+						fichierLoad >> useless >> useless >> useless >> useless;
 					}
 				}
 			}
@@ -655,8 +672,55 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
-						fichierLoad >> useless >> useless >> useless >> useless; 
+						fichierLoad >> useless >> useless >> useless >> useless;
 					}
+				}
+			}
+		}
+	}
+	else if(type == CritereType::ON_INTER)
+	{
+		int start = va_arg(ap, int);
+		int end = va_arg(ap, int);
+
+		int aCharger = end-start+1;
+		int position = 1;
+		int compteurAjout = 0;
+
+		while(categorie != '3')
+		{
+			fichierLoad >> categorie >> villeDep >> villeArr;
+			if(categorie == '0')
+			{
+				fichierLoad >> moyTransport;
+				if(compteurAjout < aCharger && position >= start)
+				{
+					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
+					catal.Add(nouveauTrajet);
+					compteurAjout++;
+				}
+				else
+				{
+					position++;
+				}
+			}
+			else if(categorie == '1')
+			{
+				fichierLoad >> nbTrajet;
+				if(compteurAjout < aCharger && position >= start)
+				{
+					TrajetCompose *nouveauTrajet = new TrajetCompose();
+					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					catal.Add(nouveauTrajet);
+					compteurAjout++;
+				}
+				else
+				{
+					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
+					{
+						fichierLoad >> useless >> useless >> useless >> useless;
+					}
+					position++;
 				}
 			}
 		}
