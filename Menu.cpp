@@ -567,10 +567,10 @@ void Menu::Chargement(CritereType type, ...)
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
 						fichierLoad >> useless >> useless >> useless >> useless;
-						//Il faudrait verifier si le trajet compose contient un autre trajet compose
-						//Pour ça il faudrait verifier la derniere valeur de useless,
-						//Si c'est un entier, alors on l'ajoute a nbTrajet et on continue de skip les trajets
-						//Mais comme on ne prevoit pas c'est cas la, ce n'est pas la priorite
+						nbTrajet += atoi(useless.c_str());
+						//Si useless est un entier, alors on augmente nbTrajet pour skip un trajet compose situe dans un trajet compose
+						//Si useless est un string, alors atoi renvoie 0
+						//Il ne faut pas que le moyen de transport soit un nombre !!!!
 					}
 				}
 			}
@@ -609,6 +609,7 @@ void Menu::Chargement(CritereType type, ...)
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
 						fichierLoad >> useless >> useless >> useless >> useless;
+						nbTrajet += atoi(useless.c_str());
 					}
 				}
 			}
@@ -647,6 +648,7 @@ void Menu::Chargement(CritereType type, ...)
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
 						fichierLoad >> useless >> useless >> useless >> useless;
+						nbTrajet += atoi(useless.c_str());
 					}
 				}
 			}
@@ -686,6 +688,7 @@ void Menu::Chargement(CritereType type, ...)
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
 						fichierLoad >> useless >> useless >> useless >> useless;
+						nbTrajet += atoi(useless.c_str());
 					}
 				}
 			}
@@ -731,6 +734,7 @@ void Menu::Chargement(CritereType type, ...)
 					for(int i = 0; i < nbTrajet; i++) //On skip les n trajets appartenant au trajet composé
 					{
 						fichierLoad >> useless >> useless >> useless >> useless;
+						nbTrajet += atoi(useless.c_str());
 					}
 					position++;
 				}
