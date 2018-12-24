@@ -488,12 +488,13 @@ void Menu::Chargement(CritereType type, ...)
 	va_list ap;
 	va_start(ap, type);
 
+	system("cd save; ls");
+	cout << endl << "Choisir la sauvegarde que vous voulez charger : ";
+
 	string loadName;
-	//ce serait pratique d'afficher les sauvegardes disponibles à cet endroit
-	//system("ls -l"); <- mais dans le dossier "/save"
-	cout << endl << "Veuillez saisir le nom du fichier a charger : ";
 	cin >> loadName;
 	loadName = string(DIR) + loadName;
+
 
 	if(!checkExists(loadName))
 	{
