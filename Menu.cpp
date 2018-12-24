@@ -488,6 +488,7 @@ void Menu::Chargement(CritereType type, ...)
 	va_list ap;
 	va_start(ap, type);
 
+	cout << "Fichier disponibles :" << endl;
 	system("cd save; ls");
 	cout << endl << "Choisir la sauvegarde que vous voulez charger : ";
 
@@ -509,6 +510,7 @@ void Menu::Chargement(CritereType type, ...)
 	string villeDep, villeArr, moyTransport;
 	int nbTrajet;
 	string useless; //Permet de se débarasser des strings que l'on veut eviter
+	int compteurAjout = 0;
 
 	if(type == CritereType::NONE)
 	{
@@ -520,6 +522,7 @@ void Menu::Chargement(CritereType type, ...)
 				fichierLoad >> moyTransport;
 				TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 				catal.Add(nouveauTrajet);
+				compteurAjout++;
 			}
 			else if(categorie == '1')
 			{
@@ -527,6 +530,7 @@ void Menu::Chargement(CritereType type, ...)
 				TrajetCompose *nouveauTrajet = new TrajetCompose();
 				fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 				catal.Add(nouveauTrajet);
+				compteurAjout++;
 			}
 		}
 	}
@@ -545,6 +549,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 			}
 			else if(categorie == '1')
@@ -555,6 +560,7 @@ void Menu::Chargement(CritereType type, ...)
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 				else
 				{
@@ -585,6 +591,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 			}
 			else if(categorie == '1')
@@ -595,6 +602,7 @@ void Menu::Chargement(CritereType type, ...)
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 				else
 				{
@@ -621,6 +629,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 			}
 			else if(categorie == '1')
@@ -631,6 +640,7 @@ void Menu::Chargement(CritereType type, ...)
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 				else
 				{
@@ -658,6 +668,7 @@ void Menu::Chargement(CritereType type, ...)
 				{
 					TrajetSimple *nouveauTrajet = new TrajetSimple(villeDep.c_str(), villeArr.c_str(), moyTransport.c_str());
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 			}
 			else if(categorie == '1')
@@ -668,6 +679,7 @@ void Menu::Chargement(CritereType type, ...)
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
 					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
+					compteurAjout++;
 				}
 				else
 				{
@@ -686,7 +698,6 @@ void Menu::Chargement(CritereType type, ...)
 
 		int aCharger = end-start+1;
 		int position = 1;
-		int compteurAjout = 0;
 
 		while(categorie != '3')
 		{
@@ -725,8 +736,8 @@ void Menu::Chargement(CritereType type, ...)
 				}
 			}
 		}
-		cout << endl << compteurAjout << " trajet ajoutés" << endl;
 	}
+	cout << endl << compteurAjout << " trajet ajoutés" << endl;
 }//--------Fin de Chargement
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
