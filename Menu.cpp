@@ -488,7 +488,7 @@ void Menu::Chargement(CritereType type, ...)
 	va_list ap;
 	va_start(ap, type);
 
-	cout << "Fichier disponibles :" << endl;
+	cout << "Fichiers disponibles :" << endl;
 	system("cd save; ls");
 	cout << endl << "Choisir la sauvegarde que vous voulez charger : ";
 
