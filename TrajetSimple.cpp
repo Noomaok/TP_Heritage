@@ -28,12 +28,12 @@ Trajet* TrajetSimple::Clone() const
 int TrajetSimple::GetType() const
 {
 	return 0;
-}
+}//------- Fin de GetType
 
 void TrajetSimple::SaveTrajet(ofstream &fichier) const
 {
 	fichier << moyenTransport << endl;
-}
+}//------- Fin de SaveTrajet
 
 //------------- Surcharge d'opérateurs -----------------------------------------------------
 

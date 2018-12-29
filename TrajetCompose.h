@@ -30,8 +30,18 @@ public:
 	// Affiche le contenu du TrajetCompose courant
 
 	virtual int GetType() const;
+	// Mode d'emploi :
+	// Renvoie la valeur 1
 
-	streampos loadTrajetCompose(ifstream &file, streampos currentPos,int nbAdd);
+	virtual void SaveTrajet(ofstream &fichier) const;
+	// Mode d'emploi :
+	// Ecrit dans fichier le nombre de trajet qu'il comporte puis les ajoutes au fichier. Il finit par un retour ligne.
+
+	streampos LoadTrajetCompose(ifstream &file, streampos currentPos,int nbAdd);
+	// Mode d'emploi :
+	// Charge le contenu correspodant au trajet compose depuis la source file a partir de la position currentPos.
+	// nbAdd trajets sont ajouter au trajet compose
+	// Renvoie la position du curseur après le chargement du trajet compose
 
 	bool AjouterTrajet(Trajet *nouveauTrajet);
 	// Mode d'emploi :
@@ -40,8 +50,6 @@ public:
 	virtual Trajet* Clone() const;
 	// Mode d'emploi :
 	// Renvoie une copie du trajet compose courant
-
-	virtual void SaveTrajet(ofstream &fichier) const;
 
 //---- Surchage d'opérateurs ----
 //--- Constructeurs - Desctructeurs ---

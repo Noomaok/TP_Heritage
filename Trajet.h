@@ -31,8 +31,10 @@ public:
 	// Methode virtuelle pur destine a gerer l'affichage des trajets
 
 	virtual int GetType() const = 0;
+	// Methode virtuelle pur qui donne accès au type du trajet, simple ou compose
 
 	virtual void SaveTrajet(ofstream &fichier) const = 0;
+	//Methode virtuelle pur qui permet la sauvegarde du trajet dans l'objet fichier
 
 	static bool TestCompatible(Trajet const &  trajet1, const Trajet & trajet2);
 	// Mode d'emploi :

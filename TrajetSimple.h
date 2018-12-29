@@ -28,8 +28,12 @@ public:
 	// Affiche la ville de depart, la ville d'arrivee et le moyen de transport dans la sortie par defaut du systeme
 
 	virtual int GetType() const;
+	// Mode d'emploi :
+	// Renvoie la valeur 0
 
 	virtual void SaveTrajet(ofstream &fichier) const;
+	// Mode d'emploi :
+	// Ecrit dans fichier le moyen de transport et fait un retour ligne
 
 	virtual Trajet* Clone() const;
 	// Mode d'emploi :

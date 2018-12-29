@@ -40,10 +40,16 @@ public:
 	// Lance la procedure de creation d'un trajet simple. Renvoie un pointeur sur le nouveau trajet.
 
 	bool checkExists(string file) const;
+	// Mode d'emploi :
+	// Verifie l'existance du fichier de nom file dans le dossier de sauvegarde. Renvoie true si le fichier existe.
 
 	void Sauvegarde(CritereType type, ...) const;
+	// Mode d'emploi :
+	// Lance la procèdure de sauvegarde ayant pour critère type.
 
 	void Chargement(CritereType type, ...);
+	// Mode d'emploi :
+	// Lance la procèdure de chargement ayant pour critère type.
 
 	//---- Surchage d'op�rateurs ----
 	//--- Constructeurs - Desctructeurs ---

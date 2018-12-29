@@ -28,11 +28,11 @@ void TrajetCompose::SaveTrajet(ofstream & fichier) const
 		fichier << typeTrajet << " " << unTrajet->GetVilleDepart() << " " << unTrajet->GetVilleArrivee() << " ";
 		unTrajet->SaveTrajet(fichier);
 	}
-}
+}//--------Fin de SaveTrajet
 
-streampos TrajetCompose::loadTrajetCompose(ifstream &file, streampos currentPos, int nbAdd)
+streampos TrajetCompose::LoadTrajetCompose(ifstream &file, streampos currentPos, int nbAdd)
 {
-	file.seekg(currentPos);
+	file.seekg(currentPos);//Placement du curseur
 	char categorie;
 	string villeDep, villeArr, moyTransport;
 	for(int i = 0; i < nbAdd; i++)
@@ -49,17 +49,17 @@ streampos TrajetCompose::loadTrajetCompose(ifstream &file, streampos currentPos,
 			int nbTrajet;
 			file >> nbTrajet;
 			TrajetCompose *nouveauTrajet = new TrajetCompose();
-			file.seekg(nouveauTrajet->loadTrajetCompose(file, file.tellg(), nbTrajet));
+			file.seekg(nouveauTrajet->LoadTrajetCompose(file, file.tellg(), nbTrajet));
 			AjouterTrajet(nouveauTrajet);
 		}
 	}
 	return file.tellg();
-}
+}//--------Fin de LoadTrajetCompose
 
 int TrajetCompose::GetType() const
 {
 	return 1;
-}
+}//--------Fin de GetType
 
 void TrajetCompose::Affichage() const
 {

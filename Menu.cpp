@@ -16,15 +16,6 @@ using namespace std;
 
 //------------- Methodes publiques ---------------------------------------------------------
 
-bool Menu::checkExists(string file) const
-{
-	ifstream file_to_check(file.c_str());
-	if(file_to_check.is_open())
-	return true;
-	file_to_check.close();
-	return false;
-}
-
 void Menu::run()
 {
 	char lecture[100];
@@ -140,7 +131,7 @@ void Menu::run()
 				int selection;
 				cout << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> lecture;
-				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)
+				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)//Saisi du type
 				{
 					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
 					Sauvegarde(CritereType::ON_TYPE, selection);
@@ -216,7 +207,7 @@ void Menu::run()
 				char selection = 'X';
 				cout << "Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> selection;
-				if((selection == '0') || (selection == '1'))
+				if((selection == '0') || (selection == '1'))//Saisi du type
 				{
 					Chargement(CritereType::ON_TYPE, selection);
 				}
@@ -371,6 +362,15 @@ TrajetCompose* Menu::creerTrajetCompose(const Catalogue & catalogue)
 	return newTrajet;
 }//--------Fin de creerTrajetCompose
 
+bool Menu::checkExists(string file) const
+{
+	ifstream file_to_check(file.c_str());
+	if(file_to_check.is_open())
+		return true;
+	file_to_check.close();
+	return false;
+}//------- Fin de checkExists
+
 void Menu::Sauvegarde(CritereType type, ...) const
 {
 	va_list ap;
@@ -381,7 +381,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	cin >> saveName;
 	saveName = string(DIR) + saveName;
 
-	if(checkExists(saveName))
+	if(checkExists(saveName))// Si le fichier existe deja
 	{
 		char rep;
 		cout << "Le fichier existe deja, voulez-vous l'ecraser ? (o/n) " << endl;
@@ -391,7 +391,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	}
 
 	ofstream fichierSave;
-	fichierSave.open(saveName);
+	fichierSave.open(saveName);// Ouverture du nouveau fichier
 
 	if(type == CritereType::NONE)
 	{
@@ -497,7 +497,7 @@ void Menu::Chargement(CritereType type, ...)
 	loadName = string(DIR) + loadName;
 
 
-	if(!checkExists(loadName))
+	if(!checkExists(loadName))// Si le fichier choisi n'existe pas
 	{
 		cout << "Le fichier n'existe pas" << endl;
 		return;
@@ -507,10 +507,8 @@ void Menu::Chargement(CritereType type, ...)
 	fichierLoad.open(loadName);
 
 	char categorie = 'X';
-	string villeDep, villeArr, moyTransport;
-	int nbTrajet;
-	string useless; //Permet de se débarasser des strings que l'on veut eviter
-	int compteurAjout = 0;
+	string villeDep, villeArr, moyTransport, useless; //useless permet de se débarasser des strings que l'on veut eviter
+	int nbTrajet, compteurAjout = 0;
 
 	if(type == CritereType::NONE)
 	{
@@ -528,7 +526,7 @@ void Menu::Chargement(CritereType type, ...)
 			{
 				fichierLoad >> nbTrajet;
 				TrajetCompose *nouveauTrajet = new TrajetCompose();
-				fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+				fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 				catal.Add(nouveauTrajet);
 				compteurAjout++;
 			}
@@ -538,10 +536,10 @@ void Menu::Chargement(CritereType type, ...)
 	{
 		char selection = va_arg(ap, int);
 
-		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
+		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			bool checkLoad = categorie == selection;
+			bool checkLoad = categorie == selection; //Condition pour la sauvegarde
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
@@ -558,7 +556,7 @@ void Menu::Chargement(CritereType type, ...)
 				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
-					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 					compteurAjout++;
 				}
@@ -580,10 +578,10 @@ void Menu::Chargement(CritereType type, ...)
 	{
 		const char* ville = va_arg(ap, char*);
 
-		while(categorie != '3') //Modification de la logique car certain trajets simple contenue dans un trajet compose n'etait pas skip
+		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			bool checkLoad = strcmp(ville,villeDep.c_str()) == 0;
+			bool checkLoad = strcmp(ville,villeDep.c_str()) == 0; //Condition pour la sauvegarde
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
@@ -600,7 +598,7 @@ void Menu::Chargement(CritereType type, ...)
 				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
-					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 					compteurAjout++;
 				}
@@ -622,7 +620,7 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			bool checkLoad = strcmp(ville,villeArr.c_str()) == 0;
+			bool checkLoad = strcmp(ville,villeArr.c_str()) == 0; //Condition pour la sauvegarde
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
@@ -639,7 +637,7 @@ void Menu::Chargement(CritereType type, ...)
 				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
-					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 					compteurAjout++;
 				}
@@ -662,7 +660,7 @@ void Menu::Chargement(CritereType type, ...)
 		while(categorie != '3')
 		{
 			fichierLoad >> categorie >> villeDep >> villeArr;
-			bool checkLoad = (strcmp(villeD,villeDep.c_str()) == 0 && strcmp(villeA,villeArr.c_str()) == 0);
+			bool checkLoad = (strcmp(villeD,villeDep.c_str()) == 0 && strcmp(villeA,villeArr.c_str()) == 0); //Condition pour la sauvegarde
 			if(categorie == '0')
 			{
 				fichierLoad >> moyTransport;
@@ -679,7 +677,7 @@ void Menu::Chargement(CritereType type, ...)
 				if(checkLoad)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
-					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 					compteurAjout++;
 				}
@@ -725,7 +723,7 @@ void Menu::Chargement(CritereType type, ...)
 				if(compteurAjout < aCharger && position >= start)
 				{
 					TrajetCompose *nouveauTrajet = new TrajetCompose();
-					fichierLoad.seekg(nouveauTrajet->loadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
+					fichierLoad.seekg(nouveauTrajet->LoadTrajetCompose(fichierLoad, fichierLoad.tellg(), nbTrajet));
 					catal.Add(nouveauTrajet);
 					compteurAjout++;
 				}
@@ -742,6 +740,8 @@ void Menu::Chargement(CritereType type, ...)
 		}
 	}
 	cout << endl << compteurAjout << " trajet ajoutés" << endl;
+	
+	fichierLoad.close();
 }//--------Fin de Chargement
 
 //------------- Surcharge d'op�rateurs -----------------------------------------------------
