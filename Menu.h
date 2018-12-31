@@ -32,7 +32,7 @@ public:
 
 	TrajetCompose* creerTrajetCompose(const Catalogue & catalogue);
 	// Mode d'emploi :
-	// Lance la procedure de creation d'un trajet compose. Renvoi un pointeur sur le nouveau trajet.
+	// Lance la procedure de creation d'un trajet compose. Renvoie un pointeur sur le nouveau trajet.
 	// Le parametre formel catalogue est utilisé pour l'ajout d'un trajet existant dans le trajet compose.
 
 	TrajetSimple* creerTrajetSimple();
@@ -41,15 +41,15 @@ public:
 
 	bool checkExists(string file) const;
 	// Mode d'emploi :
-	// Verifie l'existance du fichier de nom file dans le dossier de sauvegarde. Renvoie true si le fichier existe.
+	// Verifie l'existence du fichier de nom file dans le dossier de sauvegarde. Renvoie true si le fichier existe.
 
 	void Sauvegarde(CritereType type, ...) const;
 	// Mode d'emploi :
-	// Lance la procèdure de sauvegarde ayant pour critère type.
+	// Lance la procédure de sauvegarde ayant pour critère type.
 
 	void Chargement(CritereType type, ...);
 	// Mode d'emploi :
-	// Lance la procèdure de chargement ayant pour critère type.
+	// Lance la procédure de chargement ayant pour critère type.
 
 	//---- Surchage d'op�rateurs ----
 	//--- Constructeurs - Desctructeurs ---

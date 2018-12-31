@@ -14,7 +14,7 @@ using namespace std;
 //               Rôle de la classe <Trajet>:
 // Gerer les informations d'un trajet, c'est a dire les villes de
 // depart et d'arrive.
-// Cette classe fournie egalement des methodes pour traiter ces 
+// Cette classe fournie egalement des methodes pour traiter ces
 // donnees
 //
 // TOUT POINTEUR PASSE A CETTE CLASS EST ENTIEREMENT GERER PAS CETTE
@@ -26,15 +26,15 @@ class Trajet
 {
 public:
 //----- Methodes publiques -----
-	
+
 	virtual void Affichage() const = 0;
-	// Methode virtuelle pur destine a gerer l'affichage des trajets
+	// Methode virtuelle pure destinée a gérer l'affichage des trajets
 
 	virtual int GetType() const = 0;
-	// Methode virtuelle pur qui donne accès au type du trajet, simple ou compose
+	// Methode virtuelle pure qui donne accès au type du trajet, simple ou composé
 
 	virtual void SaveTrajet(ofstream &fichier) const = 0;
-	//Methode virtuelle pur qui permet la sauvegarde du trajet dans l'objet fichier
+	//Methode virtuelle pure qui permet la sauvegarde du trajet dans l'objet fichier
 
 	static bool TestCompatible(Trajet const &  trajet1, const Trajet & trajet2);
 	// Mode d'emploi :
@@ -49,30 +49,30 @@ public:
 	// Renvoie la valeur actuelle de villeArrivee
 
 	virtual Trajet* Clone() const = 0;
-	// Methode virtuelle pur destine a dupliquer le trajet courant
+	// Methode virtuelle pure destine a dupliquer le trajet courant
 
 //---- Surchage d'opérateurs ----
-	
+
 	friend std::ostream& operator<<(std::ostream& output, Trajet const & trajet);
 	//Surcharge de l'operateur << pour simplifier l'affichage des trajets
 
 //--- Constructeurs - Desctructeurs ---
-	
+
 	Trajet(const char *villeDep = "",const char *villeArr = "");
 	// Mode d'emploi :
 	// Cree un trajet avec villeDep comme ville de depart et villeArr comme ville d'arrivee
-	
+
 	virtual ~Trajet();
 	// Mode d'emploi :
 	// Supprime le trajet courant et libere la memoire
 
 protected:
 //----- Methodes protégées -----
-	
+
 	Trajet(Trajet const & trajetACopier) {};
 
 //----- Attributs protégés -----
-	
+
 	char *villeDepart;
 	char *villeArrivee;
 	int numTrajet;

@@ -40,7 +40,7 @@ public:
 	streampos LoadTrajetCompose(ifstream &file, streampos currentPos,int nbAdd);
 	// Mode d'emploi :
 	// Charge le contenu correspodant au trajet compose depuis la source file a partir de la position currentPos.
-	// nbAdd trajets sont ajouter au trajet compose
+	// nbAdd trajets sont ajoutés au trajet compose
 	// Renvoie la position du curseur après le chargement du trajet compose
 
 	bool AjouterTrajet(Trajet *nouveauTrajet);

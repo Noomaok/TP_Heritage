@@ -22,7 +22,7 @@ class TrajetSimple : public Trajet
 {
 public:
 //----- Methodes publiques -----
-	
+
 	virtual void Affichage() const;
 	// Mode d'emploi :
 	// Affiche la ville de depart, la ville d'arrivee et le moyen de transport dans la sortie par defaut du systeme

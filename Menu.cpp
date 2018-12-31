@@ -131,7 +131,7 @@ void Menu::run()
 				int selection;
 				cout << "Type des trajets à sauvegarder :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> lecture;
-				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0)//Saisi du type
+				if((strcmp(lecture, "0") == 0) || strcmp(lecture, "1") == 0) //Saisie du type
 				{
 					selection = (strcmp(lecture, "0") == 0) ? 0 : 1;
 					Sauvegarde(CritereType::ON_TYPE, selection);
@@ -207,7 +207,7 @@ void Menu::run()
 				char selection = 'X';
 				cout << "Type des trajets à charger :\n -Simple [0]\n -Composé [1]" << endl;
 				cin >> selection;
-				if((selection == '0') || (selection == '1'))//Saisi du type
+				if((selection == '0') || (selection == '1')) //Saisie du type
 				{
 					Chargement(CritereType::ON_TYPE, selection);
 				}
@@ -335,7 +335,7 @@ TrajetCompose* Menu::creerTrajetCompose(const Catalogue & catalogue)
 				}
 				else if (num < 1)
 				{
-					cout << "Nombre trop peit, veillez choisir un nombre plus grand." << endl;
+					cout << "Nombre trop petit, veillez choisir un nombre plus grand." << endl;
 				}
 				else
 				{
@@ -381,7 +381,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	cin >> saveName;
 	saveName = string(DIR) + saveName;
 
-	if(checkExists(saveName))// Si le fichier existe deja
+	if(checkExists(saveName)) //Si le fichier existe deja
 	{
 		char rep;
 		cout << "Le fichier existe deja, voulez-vous l'ecraser ? (o/n) " << endl;
@@ -391,7 +391,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 	}
 
 	ofstream fichierSave;
-	fichierSave.open(saveName);// Ouverture du nouveau fichier
+	fichierSave.open(saveName); //Ouverture du nouveau fichier
 
 	if(type == CritereType::NONE)
 	{
@@ -477,7 +477,7 @@ void Menu::Sauvegarde(CritereType type, ...) const
 			unTrajet->SaveTrajet(fichierSave);
 		}
 	}
-	// Mark end of file for loading
+	//Mark end of file for loading
 	fichierSave << '3';
 
 	fichierSave.close();
@@ -497,7 +497,7 @@ void Menu::Chargement(CritereType type, ...)
 	loadName = string(DIR) + loadName;
 
 
-	if(!checkExists(loadName))// Si le fichier choisi n'existe pas
+	if(!checkExists(loadName)) //Si le fichier choisi n'existe pas
 	{
 		cout << "Le fichier n'existe pas" << endl;
 		return;
@@ -740,7 +740,7 @@ void Menu::Chargement(CritereType type, ...)
 		}
 	}
 	cout << endl << compteurAjout << " trajet ajoutés" << endl;
-	
+
 	fichierLoad.close();
 }//--------Fin de Chargement
 
